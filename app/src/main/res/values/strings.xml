@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Which Animal Are You</string>
+    <string name="intro">Which animal are you?</string>
+    <string name="question1">You are lazy</string>
+    <string name="question2">You are proud</string>
+    <string name="question3">You are kind</string>
+    <string name="question4">You are fierce</string>
+    <string name="question5">You are silly</string>
+    <string name="question6">You are gentle</string>
+    <string name="question7">You are brave</string>
+    <string name="question8">You are clever</string>
+    <string-array name="spinner1">
+        <item>Strongly Agree</item>
+        <item>Agree</item>
+        <item>Neutral</item>
+        <item>Disagree</item>
+        <item>Strongly Disagree</item>
+    </string-array>
+</resources>
