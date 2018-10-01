@@ -11,25 +11,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.affogatostudios.whichanimalareyou.R;
-import com.affogatostudios.whichanimalareyou.model.Page;
+import com.affogatostudios.whichanimalareyou.model.Question;
 
 public class QuestionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TextView questionTextView;
-    private Page page;
     private Spinner spinner;
+    private Question[] questions;
     private String[] choices;
     private int currentQuestion;
     private int score;
+    private String caption;
+    private Intent animalActivityIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
+        Intent intent = getIntent();
+        animalActivityIntent = new Intent(this, AnimalActivity.class);
+
         questionTextView = findViewById(R.id.questionTextView);
-        page = new Page();
         spinner = findViewById(R.id.spinner1);
+        questions = new Question[8];
+
+        questions[0] = new Question(R.string.question1);
+        questions[1] = new Question(R.string.question2);
+        questions[2] = new Question(R.string.question3);
+        questions[3] = new Question(R.string.question4);
+        questions[4] = new Question(R.string.question5);
+        questions[5] = new Question(R.string.question6);
+        questions[6] = new Question(R.string.question7);
+        questions[7] = new Question(R.string.question8);
         choices = new String[] {
                 "",
                 "STRONGLY AGREE",
@@ -45,6 +59,7 @@ public class QuestionActivity extends AppCompatActivity implements AdapterView.O
         spinner.setSelection(0);
         currentQuestion = 0;
         score = 0;
+        caption = intent.getStringExtra("caption");
 
         // load initial question
         loadQuestion(currentQuestion);
@@ -57,23 +72,23 @@ public class QuestionActivity extends AppCompatActivity implements AdapterView.O
             case "":
                 break;
             case "STRONGLY AGREE":
-                score += 1;
+                score += 0;
                 nextQuestion();
                 break;
             case "AGREE":
-                score += 2;
-                nextQuestion();
-                break;
-            case "NEUTRAL":
                 score += 3;
                 nextQuestion();
                 break;
+            case "NEUTRAL":
+                score += 5;
+                nextQuestion();
+                break;
             case "DISAGREE":
-                score += 4;
+                score += 7;
                 nextQuestion();
                 break;
             case "STRONGLY DISAGREE":
-                score += 5;
+                score += 9;
                 nextQuestion();
                 break;
         }
@@ -122,16 +137,18 @@ public class QuestionActivity extends AppCompatActivity implements AdapterView.O
                 loadQuestion(currentQuestion);
                 break;
             case 7:
-                Intent intent = new Intent(this, AnimalActivity.class);
-                intent.putExtra("score", score);
-                startActivity(intent);
+                animalActivityIntent.putExtra("score", score);
+                animalActivityIntent.putExtra("caption", caption);
+                //intent.putExtra("score", score);
+                //intent.putExtra("caption", caption);
+                startActivity(animalActivityIntent);
                 break;
         }
-        Toast.makeText(this, Integer.toString(score), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Integer.toString(score), Toast.LENGTH_SHORT).show();
     }
 
     private void loadQuestion(int question) {
         // load correct questions and answer options
-        questionTextView.setText(page.getQuestion(question).getQuestionId());
+        questionTextView.setText(questions[question].getQuestionId());
     }
 }
